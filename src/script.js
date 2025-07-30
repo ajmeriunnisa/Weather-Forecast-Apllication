@@ -25,12 +25,31 @@ searchBtn.addEventListener("click", () => {
 });
 
 
-function showError(msg){
-    errorMsg.textContent=msg;
+function showError(msg) {
+    errorMsg.textContent = msg;
     errorMsg.classList.remove("hidden");
 }
 
-function clearError(){
-    errorMsg.textContent="";
+function clearError() {
+    errorMsg.textContent = "";
     errorMsg.classList.add("hidden");
+}
+
+async function fetchWeather(city) {
+    try {
+        clearError();
+        
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=mtric`);
+        
+        if (!res.ok) {
+            throw new Error("City Not Found");
+        }
+
+        const data = await res.json();
+        updateWeatherUI(data);
+        fetchForecast(city);
+        saveRecentCity(city);
+    } catch (error) {
+        showError(error.message)
+    }
 }
