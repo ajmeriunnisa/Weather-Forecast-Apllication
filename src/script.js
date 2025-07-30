@@ -12,3 +12,16 @@ const weatherInfo = document.getElementById("weatherInfo");
 const forecastSection = document.getElementById("forecastSection");
 const forecastContainer = document.getElementById("forecastContainer");
 const recentCities = document.getElementById("recentCities");
+
+
+//When search button in clicked
+searchBtn.addEventListener("click",()=>{
+    const city=cityInput.value.trim();
+if(city){
+    fetchWeather(city);
+} else {
+    showError("Please enter a city name");
+}
+    
+});
+
