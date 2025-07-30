@@ -29,6 +29,9 @@
         Current Location</button>
     </div>
 
+    <!-- Error Message -->
+     <p id="errorMsg" class="text-red-600 mt-4 text-center font-medium hidden"></p>
+
     <!-- Recent Cities Dropdown -->
     <div id="recentCitiesContainer" class="mt-5 text-center hidden">
       <label for="recentCities" class="block font-medium text-sm text-gray-700 mb-2">Recently Searched Cities</label>
@@ -68,7 +71,7 @@
   </section>
 
   <!-- Forecast Section -->
-  <section id="forecastSection" class="bg-white p-5 rounded-xl max-w-6xl mx-auto shadow-md">
+  <section id="forecastSection" class="bg-white p-5 rounded-xl max-w-6xl mx-auto shadow-md ">
     <h2 class="font-semibold text-xl text-center text-gray-700 mb-4"> 5-Day Forecast</h2>
     <div id="forecastContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
       <!-- JS will add forecast cards -->
