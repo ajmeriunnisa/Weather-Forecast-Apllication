@@ -136,7 +136,7 @@ function displayForecast(list) {
         <img src="${iconUrl}" alt="${item.weather[0].description}" class="mx-auto w-12">
         <p><i class="fa-solid fa-temperature-half text-cyan-800"></i>Temp: ${item.main.temp}&deg;C</p>
       <p><i class="fa-solid fa-droplet text-cyan-800"></i>Humidity: ${item.main.humidity}%</p>
-      <p><i class="fa-solid fa-wind text-cyan-800"></i>wind: ${item.wind.speed} m/s</p>
+      <p><i class="fa-solid fa-wind text-cyan-800"></i>Wind: ${item.wind.speed} m/s</p>
         `;
         container.appendChild(div);
     });
