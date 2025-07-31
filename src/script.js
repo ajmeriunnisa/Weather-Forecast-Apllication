@@ -50,8 +50,8 @@ async function fetchWeather(city) {
 
         const data = await res.json();
         updateWeatherUI(data);
-        fetchForecast(city);
-        saveRecentCity(city);
+        // fetchForecast(city);
+        // saveRecentCity(city);
     } catch (error) {
         showError(error.message)
     }
@@ -67,4 +67,28 @@ function updateWeatherUI(data){
     document.getElementById("wind").textContent=data.wind.speed;
 
     weatherInfo.classList.remove("hidden");
+}
+
+
+// Event listener for current location button
+currentBtn.addEventListener("click",getLocationWeather);
+
+function getLocationWeather(){
+    if(!navigator.geolocation){
+        showError("Geolocation is not supported by your browser");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async position => {
+        const{latitude,longitude}=position.coords;
+        
+        try{
+            const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
+
+            const data=await res.json();
+            updateWeatherUI(data);
+        } catch(err){
+            showError("Unable to get weather for your location");
+        }
+    });
 }
