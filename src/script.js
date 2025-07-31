@@ -25,6 +25,7 @@ searchBtn.addEventListener("click", () => {
 });
 
 
+// Function to show and clear error messages
 function showError(msg) {
     errorMsg.textContent = msg;
     errorMsg.classList.remove("hidden");
@@ -35,6 +36,8 @@ function clearError() {
     errorMsg.classList.add("hidden");
 }
 
+
+// Function to fetch current weather for a city
 async function fetchWeather(city) {
     try {
         clearError();
@@ -52,4 +55,16 @@ async function fetchWeather(city) {
     } catch (error) {
         showError(error.message)
     }
+}
+
+
+// Function to update the weather section
+function updateWeatherUI(data){
+    document.getElementById("location").textContent=data.name;
+    document.getElementById("temperature").textContent=data.main.temp;
+    document.getElementById("condition").textContent=data.weather[0].description;
+    document.getElementById("humidity").textContent=data.main.humidity;
+    document.getElementById("wind").textContent=data.wind.speed;
+
+    weatherInfo.classList.remove("hidden");
 }
