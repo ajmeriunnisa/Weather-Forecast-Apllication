@@ -50,8 +50,7 @@ async function fetchWeather(city) {
 
         const data = await res.json();
         updateWeatherUI(data);
-        // fetchForecast(city);
-        // saveRecentCity(city);
+        fetchForecast(city);
     } catch (error) {
         showError(error.message)
     }
@@ -87,8 +86,30 @@ function getLocationWeather(){
 
             const data=await res.json();
             updateWeatherUI(data);
+            fetchForecast(data.name);
         } catch(err){
             showError("Unable to get weather for your location");
         }
     });
 }
+
+// Function to fetch 5-day forecast
+async function fetchForecast(city) {
+    try{
+        const res=await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`);
+
+        if(!res.ok)
+            throw new Error("Could not fetch forecast data");
+
+        const dta=await res.json();
+
+        // Fiter: take only one forecast per day around noon
+        const forecasts=data.list.filter(item=>item.dt_txt.includes("12:00:00"));
+        displayForecast(forecasts);
+        forecastSection.classList.remove("hidden");
+    } catch(error){
+        showError("Forecast error:" + error.message);
+    } 
+}
+
+
