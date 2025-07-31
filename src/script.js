@@ -12,6 +12,8 @@ const weatherInfo = document.getElementById("weatherInfo");
 const forecastSection = document.getElementById("forecastSection");
 const forecastContainer = document.getElementById("forecastContainer");
 const recentCities = document.getElementById("recentCities");
+const recentCitiesContainer = document.getElementById("recentCitiesContainer");
+
 
 
 //When search button in clicked
@@ -51,6 +53,7 @@ async function fetchWeather(city) {
         const data = await res.json();
         updateWeatherUI(data);
         fetchForecast(city);
+        saveRecentCity(city);
     } catch (error) {
         showError(error.message)
     }
@@ -87,6 +90,7 @@ function getLocationWeather(){
             const data=await res.json();
             updateWeatherUI(data);
             fetchForecast(data.name);
+            saveRecentCity(data.name);
         } catch(err){
             showError("Unable to get weather for your location");
         }
@@ -135,3 +139,46 @@ function displayForecast(list){
         container.appendChild(div);
     });
 }
+
+
+// Function to save recent cities in localstorage
+function saveRecentCity(city){
+    let cities=JSON.parse(localStorage.getItem("recentCities")) || [];
+
+    if(!cities.includes(city)){
+        cities.push(city);
+        localStorage.setItem("recentCities",JSON.stringify(cities));
+    }
+    updateRecentDropdown();
+}
+
+
+// Function to load recent cities into dropdown
+function updateRecentDropdown() {
+  const cities = JSON.parse(localStorage.getItem("recentCities")) || [];
+
+  if (cities.length === 0) {
+    recentCitiesContainer.classList.add("hidden");
+    return;
+  }
+
+  recentCities.innerHTML = `<option disabled selected>Select a city</option>`;
+
+  cities.forEach(city => {
+    const opt = document.createElement("option");
+    opt.textContent = city;
+    opt.value = city;
+    recentCities.appendChild(opt);
+  });
+
+  recentCitiesContainer.classList.remove("hidden");
+}
+
+// Event listener for recent cities
+recentCities.addEventListener("change",(e)=>{
+    fetchWeather(e.target.value);
+});
+
+
+// Calling updateRecentDropdown function on load 
+window.onload=updateRecentDropdown;
