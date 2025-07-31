@@ -156,7 +156,7 @@ function saveRecentCity(city){
 // Function to load recent cities into dropdown
 function updateRecentDropdown() {
   const cities = JSON.parse(localStorage.getItem("recentCities")) || [];
-
+  
   if (cities.length === 0) {
     recentCitiesContainer.classList.add("hidden");
     return;
