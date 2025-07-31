@@ -101,7 +101,7 @@ async function fetchForecast(city) {
         if(!res.ok)
             throw new Error("Could not fetch forecast data");
 
-        const dta=await res.json();
+        const data=await res.json();
 
         // Fiter: take only one forecast per day around noon
         const forecasts=data.list.filter(item=>item.dt_txt.includes("12:00:00"));
@@ -112,4 +112,26 @@ async function fetchForecast(city) {
     } 
 }
 
+// Function to display 5-day forecast in cards
+function displayForecast(list){
+    const container=document.getElementById("forecastContainer");
+    container.innerHTML="";
 
+    list.forEach(item => {
+        const div=document.createElement("div");
+        div.className="bg-cyan-100 rounded-lg p-4 shadow";
+
+        const date=item.dt_txt.split(" ")[0];
+        const icon=item.weather[0].icon;
+        const iconUrl=`https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+        div.innerHTML=`
+        <p class="font-semibold">${date}</p>
+        <img src="${iconUrl}" alt="${item.weather[0].description}" class="mx-auto w-12">
+        <p><i class="fa-solid fa-temperature-half text-cyan-800"></i>Temp: ${item.main.temp}&deg;C</p>
+      <p><i class="fa-solid fa-droplet text-cyan-800"></i>Humidity: ${item.main.humidity}%</p>
+      <p><i class="fa-solid fa-wind text-cyan-800"></i>wind: ${item.wind.speed} m/s</p>
+        `;
+        container.appendChild(div);
+    });
+}
